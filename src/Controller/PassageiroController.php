@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Passageiro;
+use App\Entity\Voo;
 
 class PassageiroController extends AbstractController
 {
@@ -55,8 +56,8 @@ class PassageiroController extends AbstractController
         $passageiro->setIdade($dadosReq['idade']);
         $passageiro->setCodReserva($dadosReq['codReserva']);
         
-        // PAU: Relação entre voo daqui e voo da tabela voo.
-        $passageiro->setVoo($dadosReq['voo']);
+        $voo = $this->getDoctrine()->getRepository(Voo::class)->find($dadosReq['voo']);
+        $passageiro->setVoo($voo);
         
         $doctrine->persist($passageiro);
         $doctrine->flush();

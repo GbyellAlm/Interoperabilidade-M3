@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Voo;
+use App\Entity\Aeronave;
+use App\Entity\Aeroporto;
 
 class VooController extends AbstractController
 {
@@ -54,14 +56,15 @@ class VooController extends AbstractController
         $voo->setQtdeEscalas($dadosReq['qtdeEscalas']);
         $voo->setDataSaida($dadosReq['dataSaida']);
         $voo->setDataChegada($dadosReq['dataChegada']);
-        // PAU: Relação entre aeronave daqui e aeronave da tabela aeronave.
-        $voo->setAeronave($dadosReq['aeronave']);
         
-        // PAU: Relação entre aeroportoOrigem daqui e aeroporto da tabela aeroporto.
-        $voo->setAeroportoOrigem($dadosReq['aeroportoOrigem']);
+        $aeronave = $this->getDoctrine()->getRepository(Aeronave::class)->find($dadosReq['aeronave']);
+        $voo->setAeronave($aeronave);
 
-        // PAU: Relação entre aeroportoDestino daqui e aeroporto da tabela aeroporto.
-        $voo->setAeroportoDestino($dadosReq['aeroportoDestino']);
+        $aeroportoOrigem = $this->getDoctrine()->getRepository(Aeroporto::class)->find($dadosReq['aeroportoOrigem']);
+        $voo->setAeroportoOrigem($aeroportoOrigem);
+
+        $aeroportoDestino = $this->getDoctrine()->getRepository(Aeroporto::class)->find($dadosReq['aeroportoDestino']);
+        $voo->setAeroportoDestino($aeroportoDestino);
         
         $doctrine->persist($voo);
         $doctrine->flush();

@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Assento;
+use App\Entity\Aeronave;
 
 class AssentoController extends AbstractController
 {
@@ -14,7 +15,7 @@ class AssentoController extends AbstractController
      */
     public function indexAssentos()
     {
-        $assentos = $this->getDoctrine()->getRepository(Assentos::class)->findAll();
+        $assentos = $this->getDoctrine()->getRepository(Assento::class)->findAll();
 
         return $this->json([
             'tdsAssentos' => $assentos
@@ -52,8 +53,8 @@ class AssentoController extends AbstractController
         
         $assento->setCodAssento($dadosReq['codAssento']);
         
-        // PAU: Relação entre aeronave daqui e aeronave da tabela aeronave.
-        $assento->setAeronave($dadosReq['aeronave']);
+        $aeronave = $this->getDoctrine()->getRepository(Aeronave::class)->find($dadosReq['aeronave']);
+        $assento->setAeronave($aeronave);
       
         $doctrine->persist($assento);
         $doctrine->flush();

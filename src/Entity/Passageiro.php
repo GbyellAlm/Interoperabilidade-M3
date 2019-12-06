@@ -100,29 +100,15 @@ class Passageiro
 
         return $this;
     }
-
-    /**
-     * @return Collection|Voo[]
-     */
-    public function getVoo(): Collection
+    
+    public function getVoo(): ?int
     {
-        return $this->voo;
+        return $this->$voo;
     }
 
-    public function addVoo(Voo $voo): self
+    public function setVoo(?int $voo): self
     {
-        if (!$this->voo->contains($voo)) {
-            $this->voo[] = $voo;
-        }
-
-        return $this;
-    }
-
-    public function removeVoo(Voo $voo): self
-    {
-        if ($this->voo->contains($voo)) {
-            $this->voo->removeElement($voo);
-        }
+        $this->voo = $voo;
 
         return $this;
     }
